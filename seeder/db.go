@@ -35,3 +35,17 @@ func disconnectDB(client *mongo.Client, ctx context.Context, cancel context.Canc
 		}
 	}()
 }
+func insertMany[T any](client *mongo.Client, ctx context.Context, dbName, collName string, data[] T) {
+	col := client.Database(dbName).Collection(collName)
+	docs := make([]interface{}, len(data))
+	for i, d := range data {
+		docs[i] = d
+	}
+	result, err := col.InsertMany(ctx, docs)
+	if err != nil {
+		log.Fatal("InsertMany error: ", err)
+	}
+	log.Printf("Inserted %d documents into %s.%s\n", len(result.InsertedIDs), dbName, collName)
+
+
+}
