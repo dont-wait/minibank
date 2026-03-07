@@ -1,4 +1,16 @@
 services:
   mongo:
+    ports: 
+      - 27017:27017
     image: mongo
     restart: no
+    networks:
+        - minibank
+    volumes:
+      - mongo_data:/data/db
+networks:
+  minibank:
+    driver: bridge
+    name: minibank
+volumes:
+  mongo_data:

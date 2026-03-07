@@ -2,11 +2,10 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
 	"math/rand"
-
+	"os"
 	"github.com/brianvoe/gofakeit/v6"
+	"github.com/joho/godotenv"
 )
 
 type Account struct {
@@ -59,8 +58,15 @@ func genAccounts(amount int) []Account {
 }
 
 func main() {
-	gofakeit.Seed(0xff)
-	accounts := genAccounts(10)
-	out, _ := json.MarshalIndent(accounts, "", "  ")
-	fmt.Println(string(out))
+	env := godotenv.Load("../.env")
+	if env != nil {
+		panic("Error loading .env file")
+	}
+	url := os.Getenv("DB_URL")
+	client, ctx, cancel := connectDB(url)
+	defer disconnectDB(client, ctx, cancel)
+	// gofakeit.Seed(0xff)
+	// accounts := genAccounts(10)
+	// out, _ := json.MarshalIndent(accounts, "", "  ")
+	// fmt.Println(string(out))
 }
