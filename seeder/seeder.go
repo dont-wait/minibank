@@ -1,13 +1,11 @@
 // seeder/seeder.go
-package main
+package seeder
 
 import (
 	"math/rand"
-	"os"
 	"time"
 
 	"github.com/brianvoe/gofakeit/v6"
-	"github.com/joho/godotenv"
 )
 
 type Account struct {
@@ -40,7 +38,7 @@ func weightedChoice(choices map[string]float64) string {
 	return ""
 }
 
-func genAccounts(amount int) []Account {
+func GenAccounts(amount int) []Account {
 	accounts := make([]Account, amount)
 	for i := range accounts {
 		dob := gofakeit.DateRange(
@@ -72,16 +70,4 @@ func genAccounts(amount int) []Account {
 		}
 	}
 	return accounts
-}
-
-func main() {
-	env := godotenv.Load("../.env")
-	if env != nil {
-		panic("Error loading .env file")
-	}
-	url := os.Getenv("DB_URL")
-	client, ctx, cancel := connectDB(url)
-	accounts := genAccounts(10)
-	insertMany(client, ctx, "minibank", "accounts", accounts)
-	defer disconnectDB(client, ctx, cancel)
 }

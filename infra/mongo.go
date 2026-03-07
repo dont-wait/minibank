@@ -1,4 +1,4 @@
-package main
+package infra 
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func connectDB(url string) (*mongo.Client, context.Context, context.CancelFunc) {
+func ConnectDB(url string) (*mongo.Client, context.Context, context.CancelFunc) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(url))
@@ -26,7 +26,7 @@ func connectDB(url string) (*mongo.Client, context.Context, context.CancelFunc) 
 	return client, ctx, cancel
 }
 
-func disconnectDB(client *mongo.Client, ctx context.Context, cancel context.CancelFunc) {
+func DisconnectDB(client *mongo.Client, ctx context.Context, cancel context.CancelFunc) {
 	defer cancel()
 	defer func() {
 		if err := client.Disconnect(ctx); err != nil {
@@ -35,7 +35,7 @@ func disconnectDB(client *mongo.Client, ctx context.Context, cancel context.Canc
 		}
 	}()
 }
-func insertMany[T any](client *mongo.Client, ctx context.Context, dbName, collName string, data[] T) {
+func InsertMany[T any](client *mongo.Client, ctx context.Context, dbName, collName string, data[] T) {
 	col := client.Database(dbName).Collection(collName)
 	docs := make([]interface{}, len(data))
 	for i, d := range data {
