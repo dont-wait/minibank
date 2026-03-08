@@ -1,21 +1,28 @@
 package main
 
 import (
+	// "minibank/infra"
+	// "minibank/seeder"
+	// "os"
+	"context"
+	"minibank/domain"
 	"minibank/infra"
-	"minibank/seeder"
-	"os"
+	"minibank/logger"
 
-	"github.com/joho/godotenv"
+	"github.com/rs/zerolog"
 )
 
 func main() {
-	env := godotenv.Load("../.env")
-	if env != nil {
-		panic("Error loading .env file")
+	ctx := context.Background()
+	log := logger.NewLogger(zerolog.InfoLevel)
+	log.Info().Msg("Starting the application...")
+	mongoConf := domain.LoadMongoConfig()
+	client, err := infra.Connect(ctx, mongoConf)
+	if err != nil {
+		log.Err(err).Msg("Failed to connect to MongoDB")
+		return
 	}
-	url := os.Getenv("DB_URL")
-	client, ctx, cancel := infra.ConnectDB(url)
-	accounts := seeder.GenAccounts(10)
-	infra.InsertMany(client, ctx, "minibank", "accounts", accounts)
-	defer infra.DisconnectDB(client, ctx, cancel)
+	db := client.Database("minibank")
+	log.Info().Msg(db.Name())
+	defer infra.Disconnect(client, ctx, func() {})
 }

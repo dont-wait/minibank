@@ -3,6 +3,7 @@ package logger
 import (
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/rs/zerolog"
@@ -17,7 +18,12 @@ func NewLogger(level zerolog.Level) *zerolog.Logger {
 			return fmt.Sprintf("[%s]", i)
 		},
 		FormatCaller: func(i interface{}) string {
-			return fmt.Sprintf("[%s]", i)
+			path := fmt.Sprintf("%s", i)
+			parts := strings.SplitN(path, "/", -1)
+			if len(parts) > 2 {
+				path = strings.Join(parts[len(parts)-3:], "/")
+			}
+			return fmt.Sprintf("[%s]", path)
 		},
 		FormatMessage: func(i interface{}) string {
 			return fmt.Sprintf("{%-20s}", i)
