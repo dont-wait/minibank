@@ -3,25 +3,13 @@ package seeder
 
 import (
 	"math/rand"
+	"minibank/domain"
 	"time"
 
 	"github.com/brianvoe/gofakeit/v6"
 )
 
-type Account struct {
-	AccountID     string `json:"account_id"`
-	FullName      string `json:"full_name"`
-	Email         string `json:"email"`
-	Password      string `json:"password"`
-	Phone         string `json:"phone"`
-	AccountNumber string `json:"account_number"`
-	Type          string `json:"type"`
-	Dob           string `json:"dob"`
-	Balance       int64  `json:"balance"`
-	Status        string `json:"status"`
-	CreatedAt     string `json:"created_at"`
-	UpdatedAt     string `json:"updated_at"`
-}
+
 
 func weightedChoice(choices map[string]float64) string {
 	total := 0.0
@@ -38,8 +26,8 @@ func weightedChoice(choices map[string]float64) string {
 	return ""
 }
 
-func GenAccounts(amount int) []Account {
-	accounts := make([]Account, amount)
+func GenAccounts(amount int) []domain.Account {
+	accounts := make([]domain.Account, amount)
 	for i := range accounts {
 		dob := gofakeit.DateRange(
 			time.Date(1950, 1, 1, 0, 0, 0, 0, time.UTC),
@@ -54,7 +42,7 @@ func GenAccounts(amount int) []Account {
 			time.Now(),
 		)
 
-		accounts[i] = Account{
+		accounts[i] = domain.Account{
 			AccountID:     gofakeit.UUID(),
 			FullName:      gofakeit.Name(),
 			Email:         gofakeit.Email(),
