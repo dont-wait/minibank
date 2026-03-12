@@ -30,4 +30,5 @@ node_modules/
 yarn.lock
 package-lock.json
 venv/
-pycache/
+__pycache__/
+
