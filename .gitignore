@@ -29,3 +29,5 @@ go.work
 node_modules/
 yarn.lock
 package-lock.json
+venv/
+pycache/
