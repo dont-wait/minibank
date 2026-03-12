@@ -27,9 +27,10 @@ def clean_db():
         logging.error(f"Error connecting to MongoDB: {e}")
         return None
 
-    client.db[DB_NAME]["customers"].drop()
-    client.db[DB_NAME]["accounts"].drop()
-    client.db[DB_NAME]["loans"].drop()
-    client.db[DB_NAME]["transactions"].drop()
-    client.db[DB_NAME]["branches"].drop()
+    db = client.get_database(DB_NAME)
+    db["customers"].drop()
+    db["accounts"].drop()
+    db["loans"].drop()
+    db["transactions"].drop()
+    db["branchs"].drop()
     logging.info("Database cleaned.")
