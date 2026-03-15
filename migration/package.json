@@ -1,0 +1,23 @@
+{
+  "name": "minibank",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/dont-wait/minibank#readme",
+  "bugs": {
+    "url": "https://github.com/dont-wait/minibank/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dont-wait/minibank.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "migrate-mongo-config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1"
+  }
+}
