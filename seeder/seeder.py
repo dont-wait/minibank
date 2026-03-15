@@ -2,10 +2,11 @@ import logging
 import os
 
 import pandas as pd
-from db import connect_db
 from dotenv import load_dotenv
 from mimesis import Fieldset
 from mimesis.locales import Locale
+
+from db import connect_db
 
 logging.basicConfig(level=logging.INFO)
 load_dotenv("../.env")
@@ -88,7 +89,7 @@ def gen_loans(locales, amount, db):
             ),
             "loan_amount": fs("float_number", start=1000, end=50000, precision=2),
             # 1: personal, 2: mortgage, 3: auto
-            "loan_type": fs("random.weighted_choice", choices={1: 0.5, 2: 0.3, 3: 0.2}), 
+            "loan_type": fs("random.weighted_choice", choices={1: 0.5, 2: 0.3, 3: 0.2}),
             "date_issued": date_issued,
             "created_at": date_issued,
             "updated_at": fs("datetime", start=2020, end=2026),
