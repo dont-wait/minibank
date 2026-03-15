@@ -2,19 +2,17 @@
 const dotenv = require('dotenv');
 const path = require('path');
 dotenv.config();
-dotenv.config({path: path.resolve(__dirname, '../.env')});
-const MONGO_DB_URL = process.env.MONGO_DB_URL;
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+const MONGO_URL = process.env.MONGO_URL;
 const MONGO_DB_NAME = process.env.MONGO_DB_NAME;
 const config = {
     mongodb: {
-        url: `${MONGO_DB_URL}`,
+        url: `${MONGO_URL}`,
         databaseName: `${MONGO_DB_NAME}`,
 
         options: {
-            useNewUrlParser: true, 
-            useUnifiedTopology: true, 
-            connectTimeoutMS: 20000, 
-            socketTimeoutMS: 200000, 
+            connectTimeoutMS: 20000,
+            socketTimeoutMS: 20000,
         }
     },
 
